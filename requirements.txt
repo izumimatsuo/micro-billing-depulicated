@@ -1,0 +1,9 @@
+flask
+flask-migrate
+flask-sqlalchemy
+#psycopg2
+pytest
+coverage
+flake8
+black
+mypy
