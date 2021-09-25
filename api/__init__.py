@@ -1,4 +1,4 @@
-import os
+import os, logging
 
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
@@ -8,6 +8,7 @@ from .views import bp
 
 # create and configure the app
 app = Flask(__name__, instance_relative_config=True)
+app.logger.setLevel(logging.INFO)
 app.config.from_mapping(
     SECRET_KEY="dev",
     SQLALCHEMY_DATABASE_URI="sqlite:///"

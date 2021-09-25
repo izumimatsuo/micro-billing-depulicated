@@ -1,6 +1,6 @@
 import csv
 from io import StringIO
-from flask import Blueprint, abort, request, jsonify, make_response
+from flask import Blueprint, abort, request, jsonify, make_response, current_app
 from .database import db
 from .models import Customer
 
