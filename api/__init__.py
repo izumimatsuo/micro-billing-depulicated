@@ -16,7 +16,7 @@ app.config.from_mapping(
 )
 
 # load the instance config, if it exists
-app.config.from_pyfile("config.py", silent=True)
+app.config.from_pyfile("application.cfg", silent=True)
 
 # setting the endpoints
 app.register_blueprint(bp)
