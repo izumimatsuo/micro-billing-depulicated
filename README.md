@@ -1,3 +1,4 @@
+# micro-billing [![Build Status](https://app.travis-ci.com/izumimatsuo/micro-billing.svg?branch=main)](https://app.travis-ci.com/izumimatsuo/micro-billing)
 
 環境構築
 
