@@ -31,7 +31,6 @@ def app():
                         db.session.execute(sql)
                         db.session.commit()
                     except Exception as e:
-                        print("NG")
                         print(e)
                     finally:
                         sql = ""
