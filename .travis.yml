@@ -2,7 +2,6 @@ language: python
 python:
     - 3.9
 script:
-    - pip install pysqlite3
     - pip install -r requirements.txt
     - flake8 app
-    - pytest tests.py
+    - pytest
