@@ -4,6 +4,5 @@ python:
 install:
     - pip install -r requirements.txt
 script:
-    - sqlite3 -version
     - flake8 app
     - pytest -v
