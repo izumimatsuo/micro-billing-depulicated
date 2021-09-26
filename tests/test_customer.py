@@ -12,6 +12,7 @@ def test_select_one(client):
     res = client.get('/customers/1')
     assert res.status_code == 200
     data = res.get_json()
+    print(data)
     assert 'Taro' == data['name']
 
 
