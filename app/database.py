@@ -7,6 +7,7 @@ db = SQLAlchemy()
 # logging.basicConfig()
 # logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
+
 def init_db(app):
     db.init_app(app)
     Migrate(app, db)

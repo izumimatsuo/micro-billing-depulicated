@@ -1,9 +1,9 @@
-import os, logging
+import os
+import logging
 
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
 from .database import init_db
-from .models import Customer
 from . import views
 
 
@@ -37,20 +37,16 @@ def create_app(test_config=None):
     # setting the endpoints
     app.register_blueprint(views.bp)
 
-
     @app.errorhandler(Exception)
     def handle_exception(error):
         # handling HTTP errors
         if isinstance(error, HTTPException):
-            return jsonify({'error': {
-                'code': error.code,
-                'message': error.description
-            }}), error.code
+            return (
+                jsonify({"error": {"code": error.code, "message": error.description}}),
+                error.code,
+            )
 
         # handling non-HTTP erros only
-        return jsonify({'error': {
-            'code': 500,
-            'message': 'Server error.'
-        }}), 500
+        return jsonify({"error": {"code": 500, "message": "Server error."}}), 500
 
     return app
