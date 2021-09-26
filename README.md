@@ -22,9 +22,10 @@ $ source .venv/bin/activate
 (.venv) $ coverage report
 ```
 
-開発環境 venv
-静的チェック flake8
-PEP8準拠コードフォーマット black
-type hintをチェック mypy
-自動テスト pytest
+- 仮想環境 venv
+- 静的チェック flake8
+- PEP8準拠コードフォーマッタ black
+- type hintをチェック mypy
+- 自動テスト pytest
+- テストカバレッジ計測 coverage
 
