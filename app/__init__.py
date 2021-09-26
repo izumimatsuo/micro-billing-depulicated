@@ -6,6 +6,7 @@ from .database import init_db
 from .models import Customer
 from . import views
 
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -35,6 +36,7 @@ def create_app(test_config=None):
 
     # setting the endpoints
     app.register_blueprint(views.bp)
+
 
     @app.errorhandler(Exception)
     def handle_exception(error):

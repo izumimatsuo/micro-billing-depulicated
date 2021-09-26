@@ -7,14 +7,11 @@ from .models import Customer
 
 bp = Blueprint('default', __name__, url_prefix='/')
 
-@bp.route('/')
-def hello_world():
-    return "Hello World!\n\n"
-
 @bp.route('/customers', methods = ['GET'])
 def get_customer_list():
     customers = Customer.query.all()
     return jsonify({'customers': [customer.to_dict() for customer in customers]})
+
 
 @bp.route('/customers/<customer_id>', methods = ['GET'])
 def get_customer(customer_id):
@@ -22,6 +19,7 @@ def get_customer(customer_id):
     if not customer:
         abort(404, {'code': 404, 'message': 'customer not found.'})
     return jsonify(customer.to_dict())
+
 
 @bp.route('/invoices', methods = ['GET'])
 def create_invoices():
