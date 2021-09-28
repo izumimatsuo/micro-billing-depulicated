@@ -7,3 +7,4 @@ coverage
 flake8
 black
 mypy
+python-dateutil
