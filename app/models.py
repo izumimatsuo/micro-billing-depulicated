@@ -9,21 +9,27 @@ class CurrencyType(str, enum.Enum):
     usd = "usd"
 
 
-# class Plan(db.Model):
-#    __tablename__ = 'plans'
-#    id = db.Column(db.Integer, primary_key = True)
-#    name = db.Column(db.String, nullable = False)
-#    amount = db.Column(db.Integer, nullable = False)
-#    currency = db.Column(db.Enum(CurrencyType), nullable = False)
-#
-#    def __init__(self,):
-#
-#    def to_dict(self):
-#        return dict(
-#       )
-#
-#    def __repr__(self):
-#        return '<Plan {}>'.format(self.nickname)
+class StatusType(str, enum.Enum):
+    active = "active"  # 有効
+    past_due = "past_due"  # 遅延
+    unpaid = "unpaid"  # 未払い
+    canceled = "canceled"  # 解約
+    incomplete = "incomplete"  # 不完全
+    incomplete_expired = "incomplete_expired"  # 有効期限切れ
+    trialing = "trialing"  # 試用
+
+
+class Plan(db.Model):
+    __tablename__ = "plans"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    currency = db.Column(db.Enum(CurrencyType), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_at = db.Column(
+        db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )
 
 
 class Customer(db.Model):
@@ -31,29 +37,35 @@ class Customer(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    active = db.Column(db.Boolean, nullable=False)
-    amount = db.Column(db.Integer, nullable=False)
-    start_date = db.Column(db.DateTime, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     updated_at = db.Column(
         db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
     )
 
-    def __init__(self, id, name, active, amount, start_date):
+    def __init__(self, id, name):
         self.id = id
         self.name = name
-        self.active = active
-        self.amount = amount
-        self.start_date = start_date
 
     def to_dict(self):
         return dict(
             id=self.id,
             name=self.name,
-            active=self.active,
-            amount=self.amount,
-            start_date=self.start_date,
         )
 
-    def __repr__(self):
-        return "<Customer {}>".format(self.name)
+
+class Subscription(db.Model):
+    __tablename__ = "subscriptions"
+
+    id = db.Column(db.Integer, primary_key=True)
+    current_period_start = db.Column(db.DateTime, nullable=False)
+    current_period_end = db.Column(db.DateTime, nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey("customers.id"), nullable=False)
+    customer = db.relationship(Customer, backref="customers")
+    plan_id = db.Column(db.Integer, db.ForeignKey("plans.id"), nullable=False)
+    plan = db.relationship(Plan, backref="plans")
+    status = db.Column(db.Enum(StatusType), nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    updated_at = db.Column(
+        db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
+    )

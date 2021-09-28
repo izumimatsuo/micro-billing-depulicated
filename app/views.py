@@ -4,7 +4,7 @@ from io import StringIO
 from datetime import datetime
 from flask import Blueprint, abort, jsonify, make_response
 from sqlalchemy import extract
-from .models import Customer
+from .models import Customer, Subscription, StatusType
 
 
 bp = Blueprint("default", __name__, url_prefix="/")
@@ -30,8 +30,8 @@ def create_invoices():
     writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
 
     writer.writerow(["name", "amount", "start_date"])
-    for t in Customer.query.filter_by(active=True).all():
-        writer.writerow([t.name, t.amount, t.start_date])
+    for t in Subscription.query.filter(Subscription.status == StatusType.active).all():
+        writer.writerow([t.customer.name, t.plan.amount, t.start_date])
 
     res = make_response()
     res.data = f.getvalue()
@@ -52,14 +52,14 @@ def create_invoices_by_date(invoice_date):
         invoice_datetime.day
         == calendar.monthrange(invoice_datetime.year, invoice_datetime.month)[1]
     ):
-        targets = Customer.query.filter(
-            Customer.active.is_(True),
-            extract("day", Customer.start_date) >= invoice_datetime.day,
+        targets = Subscription.query.filter(
+            Subscription.status == StatusType.active,
+            extract("day", Subscription.start_date) >= invoice_datetime.day,
         ).all()
     else:
-        targets = Customer.query.filter(
-            Customer.active.is_(True),
-            extract("day", Customer.start_date) == invoice_datetime.day,
+        targets = Subscription.query.filter(
+            Subscription.status == StatusType.active,
+            extract("day", Subscription.start_date) == invoice_datetime.day,
         ).all()
 
     f = StringIO()
@@ -67,7 +67,7 @@ def create_invoices_by_date(invoice_date):
 
     writer.writerow(["name", "amount", "start_date"])
     for t in targets:
-        writer.writerow([t.name, t.amount, t.start_date])
+        writer.writerow([t.customer.name, t.plan.amount, t.start_date])
 
     res = make_response()
     res.data = f.getvalue()
