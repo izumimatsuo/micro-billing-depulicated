@@ -4,27 +4,13 @@ from io import StringIO
 from datetime import datetime
 from flask import Blueprint, abort, jsonify, make_response
 from sqlalchemy import extract
-from .models import Customer, Subscription, StatusType
+from ..models import Customer, Subscription, StatusType
 
 
-bp = Blueprint("default", __name__, url_prefix="/")
+bp = Blueprint("invoices", __name__, url_prefix="/invoices")
 
 
-@bp.route("/customers", methods=["GET"])
-def get_customer_list():
-    customers = Customer.query.all()
-    return jsonify({"customers": [customer.to_dict() for customer in customers]})
-
-
-@bp.route("/customers/<customer_id>", methods=["GET"])
-def get_customer(customer_id):
-    customer = Customer.query.filter_by(id=customer_id).first()
-    if not customer:
-        abort(404, {"code": 404, "message": "customer not found."})
-    return jsonify(customer.to_dict())
-
-
-@bp.route("/invoices", methods=["GET"])
+@bp.route("/", strict_slashes=False, methods=["GET"])
 def create_invoices():
     f = StringIO()
     writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
@@ -40,7 +26,7 @@ def create_invoices():
     return res
 
 
-@bp.route("/invoices/<invoice_date>", methods=["GET"])
+@bp.route("/<invoice_date>", methods=["GET"])
 def create_invoices_by_date(invoice_date):
 
     try:

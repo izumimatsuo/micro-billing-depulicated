@@ -3,8 +3,6 @@ import logging
 
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
-from .database import init_db
-from . import views
 
 
 def create_app(test_config=None):
@@ -32,10 +30,13 @@ def create_app(test_config=None):
         pass
 
     # init database
+    from .database import init_db
     init_db(app)
 
-    # setting the endpoints
-    app.register_blueprint(views.bp)
+    # init endpoints
+    from .views import customers, invoices
+    app.register_blueprint(customers.bp)
+    app.register_blueprint(invoices.bp)
 
     @app.errorhandler(Exception)
     def handle_exception(error):
