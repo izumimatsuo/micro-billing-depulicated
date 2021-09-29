@@ -34,9 +34,10 @@ def create_app(test_config=None):
     init_db(app)
 
     # init endpoints
-    from .views import customers, plans, invoices
+    from .views import customers, plans, subscriptions, invoices
     app.register_blueprint(customers.app)
     app.register_blueprint(plans.app)
+    app.register_blueprint(subscriptions.app)
     app.register_blueprint(invoices.app)
 
     @app.errorhandler(Exception)
