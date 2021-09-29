@@ -31,6 +31,20 @@ class Plan(db.Model):
         db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now
     )
 
+    def __init__(self, id, name, amount, currency):
+        self.id = id
+        self.name = name
+        self.amount = amount
+        self.currency = currency
+
+    def to_dict(self):
+        return dict(
+            id=self.id,
+            name=self.name,
+            amount=self.amount,
+            currency=self.currency
+        )
+
 
 class Customer(db.Model):
     __tablename__ = "customers"

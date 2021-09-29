@@ -7,10 +7,10 @@ from sqlalchemy import extract
 from ..models import Customer, Subscription, StatusType
 
 
-bp = Blueprint("invoices", __name__, url_prefix="/invoices")
+app = Blueprint("invoices", __name__)
 
 
-@bp.route("/", strict_slashes=False, methods=["GET"])
+@app.route("/invoices", strict_slashes=False, methods=["GET"])
 def create_invoices():
     f = StringIO()
     writer = csv.writer(f, quoting=csv.QUOTE_NONNUMERIC)
@@ -26,7 +26,7 @@ def create_invoices():
     return res
 
 
-@bp.route("/<invoice_date>", methods=["GET"])
+@app.route("/invoices/<invoice_date>", methods=["GET"])
 def create_invoices_by_date(invoice_date):
 
     try:

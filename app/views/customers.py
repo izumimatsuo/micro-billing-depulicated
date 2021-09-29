@@ -7,16 +7,16 @@ from sqlalchemy import extract
 from ..models import Customer, Subscription, StatusType
 
 
-bp = Blueprint("customers", __name__, url_prefix="/customers")
+app = Blueprint("customers", __name__)
 
 
-@bp.route("/", strict_slashes=False, methods=["GET"])
+@app.route("/customers", strict_slashes=False, methods=["GET"])
 def get_customer_list():
     customers = Customer.query.all()
     return jsonify({"customers": [customer.to_dict() for customer in customers]})
 
 
-@bp.route("/<customer_id>", methods=["GET"])
+@app.route("/customers/<customer_id>", methods=["GET"])
 def get_customer(customer_id):
     customer = Customer.query.filter_by(id=customer_id).first()
     if not customer:
