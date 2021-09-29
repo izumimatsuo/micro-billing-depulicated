@@ -1,8 +1,4 @@
-import csv
-import calendar
-from io import StringIO
-from datetime import datetime
-from flask import Blueprint, abort, jsonify, make_response
+from flask import Blueprint, abort, jsonify
 from ..models import Subscription
 
 
@@ -12,7 +8,9 @@ app = Blueprint("subscriptions", __name__)
 @app.route("/subscriptions", strict_slashes=False, methods=["GET"])
 def get_subscription_list():
     subscriptions = Subscription.query.all()
-    return jsonify({"subscriptions": [subscription.to_dict() for subscription in subscriptions]})
+    return jsonify(
+        {"subscriptions": [subscription.to_dict() for subscription in subscriptions]}
+    )
 
 
 @app.route("/subscriptions/<subscription_id>", methods=["GET"])

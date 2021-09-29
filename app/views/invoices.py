@@ -2,9 +2,9 @@ import csv
 import calendar
 from io import StringIO
 from datetime import datetime
-from flask import Blueprint, abort, jsonify, make_response
+from flask import Blueprint, abort, make_response
 from sqlalchemy import extract
-from ..models import Customer, Subscription, StatusType
+from ..models import Subscription, StatusType
 
 
 app = Blueprint("invoices", __name__)

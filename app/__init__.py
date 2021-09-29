@@ -31,10 +31,12 @@ def create_app(test_config=None):
 
     # init database
     from .database import init_db
+
     init_db(app)
 
     # init endpoints
     from .views import customers, plans, subscriptions, invoices
+
     app.register_blueprint(customers.app)
     app.register_blueprint(plans.app)
     app.register_blueprint(subscriptions.app)

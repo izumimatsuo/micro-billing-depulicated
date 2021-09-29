@@ -1,10 +1,5 @@
-import csv
-import calendar
-from io import StringIO
-from datetime import datetime
-from flask import Blueprint, abort, jsonify, make_response
-from sqlalchemy import extract
-from ..models import Customer, Subscription, StatusType
+from flask import Blueprint, abort, jsonify
+from ..models import Customer
 
 
 app = Blueprint("customers", __name__)
